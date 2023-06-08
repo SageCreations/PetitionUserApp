@@ -2,6 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @inject HttpClient Http
 
+<PageTitle>Petition For Prayer</PageTitle>
 
 <h3 id="TitleName">Petition For Prayer</h3>
 
@@ -33,7 +34,7 @@
     </div>
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary" @onclick="Open">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </div>
     
     <!-- Modal -->
@@ -41,11 +42,11 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Submitted Successfully!</h5>
+                    <h5 class="modal-title">@_modalTitle</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Click anywhere else or the button to return back to the page.</p>
+                    <p>@_modalMessage</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="Close">Close</button>
@@ -53,6 +54,7 @@
             </div>
         </div>
     </div>
+    
     
     @if (ShowBackdrop)
     {
@@ -76,6 +78,7 @@
             // Throw an exception if the response has a failure status code.
             response.EnsureSuccessStatusCode();
             
+            Open("Submitted Successfully!", "Click anywhere else or the button to return back to the page.");
 
         }
         catch (HttpRequestException e)
@@ -83,11 +86,15 @@
             // Handle exceptions that are thrown for unsuccessful response codes
             // You can use e.StatusCode to check the specific status code returned
             Console.WriteLine($"Request failed: {e.Message}");
+            
+            Open("Submission Failed!","There was an error in connecting with the database.");
         }
         catch (Exception e)
         {
             // Handle any other exceptions that occur when making the request
             Console.WriteLine($"An error occurred: {e.Message}");
+            
+            Open("Submission Failed!", "Something went wrong with Website itself :(");
         }
     }
     
@@ -97,11 +104,15 @@
     public bool ShowBackdrop;
 
 
-    private void Open()
+    private void Open(string title, string message)
     {
         ModalDisplay = "block;";
         ModalClass = "Show";
         ShowBackdrop = true;
+
+        _modalTitle = title;
+        _modalMessage = message;
+        
         StateHasChanged();
     }
 
@@ -126,4 +137,7 @@
         [Required(ErrorMessage = "Description is required")]
         public string Description { get; set; } = null!;
     }
+
+    private string _modalTitle = "";
+    private string _modalMessage = "";
 }
