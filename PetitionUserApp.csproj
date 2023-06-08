@@ -6,4 +6,15 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Majorsoft.Blazor.Components.Common.JsInterop" Version="1.5.0" />
+      <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="1.5.0" />
+      <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="1.5.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\" />
+    </ItemGroup>
+
 </Project>

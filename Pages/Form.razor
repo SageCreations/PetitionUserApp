@@ -1,6 +1,129 @@
 ﻿@page "/Form"
-<h3>Form</h3>
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient Http
+
+
+<h3 id="TitleName">Petition For Prayer</h3>
+
+<EditForm Model="@_entryModel" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <!-- Input Field for Name -->
+    <div class="form-floating mb-3">
+        <InputText 
+            type="text" 
+            class="form-control" 
+            id="Name" 
+            placeholder="name" 
+            @bind-Value="@_entryModel.Name"/>
+        <ValidationMessage For="@(() => _entryModel.Name)" />
+        <label for="Name">Your Name:</label>
+    </div>
+    
+    <!-- Input Field for Description -->
+    <div class="form-floating">
+        <InputTextArea 
+            id="Description" 
+            class="form-control" 
+            placeholder="Type here" 
+            style="height: 200px" 
+            @bind-Value="@_entryModel.Description"/>
+            <ValidationMessage For="@(() => _entryModel.Description)" />
+        <label for="Description">The prayer you wish to petition:</label>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" @onclick="Open">Submit</button>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Submitted Successfully!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Click anywhere else or the button to return back to the page.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="Close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @if (ShowBackdrop)
+    {
+        <div class="modal-backdrop fade show"></div>
+    }
+
+    
+</EditForm>
+
+
 
 @code {
+    private EntryModel _entryModel = new EntryModel();
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("Petition", _entryModel);
+
+            // Throw an exception if the response has a failure status code.
+            response.EnsureSuccessStatusCode();
+            
+
+        }
+        catch (HttpRequestException e)
+        {
+            // Handle exceptions that are thrown for unsuccessful response codes
+            // You can use e.StatusCode to check the specific status code returned
+            Console.WriteLine($"Request failed: {e.Message}");
+        }
+        catch (Exception e)
+        {
+            // Handle any other exceptions that occur when making the request
+            Console.WriteLine($"An error occurred: {e.Message}");
+        }
+    }
     
+    public Guid Guid = Guid.NewGuid();
+    public string ModalDisplay = "none;";
+    public string ModalClass = "";
+    public bool ShowBackdrop;
+
+
+    private void Open()
+    {
+        ModalDisplay = "block;";
+        ModalClass = "Show";
+        ShowBackdrop = true;
+        StateHasChanged();
+    }
+
+    private void Close()
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        ShowBackdrop = false;
+    // If we got this far, the request was successful. Clear the form.
+        
+        
+        _entryModel = new EntryModel();
+        
+        StateHasChanged();
+    }
+
+    public class EntryModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; } = null!;
+
+        [Required(ErrorMessage = "Description is required")]
+        public string Description { get; set; } = null!;
+    }
 }
