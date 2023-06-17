@@ -9,7 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"] ?? throw new InvalidOperationException()) });
-//builder.Services.AddSingleton<WeatherForecastService>();
+
+// Read URLs from configuration
+var urls = builder.Configuration.GetSection("Urls").Get<string[]>();
+
+builder.WebHost.UseUrls(urls);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
