@@ -15,6 +15,13 @@ var urls = builder.Configuration.GetSection("Urls").Get<string[]>();
 
 builder.WebHost.UseUrls(urls);
 
+builder.Services.AddCors(o => o.AddPolicy("AllowAllOrigins", corsPolicyBuilder =>
+{
+    corsPolicyBuilder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,7 +32,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAllOrigins");
+
+//app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
