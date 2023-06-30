@@ -1,10 +1,15 @@
-﻿@page "/Form"
+﻿@page "/"
 @using System.ComponentModel.DataAnnotations
 @inject HttpClient Http
 
+@inject IStringLocalizer<SharedResource> Loc
+
+
+
+
 <PageTitle>Petition For Prayer</PageTitle>
 
-<h3 id="TitleName">Petition For Prayer</h3>
+<h1 id="TitleName">@_title</h1>
 
 <EditForm Model="@_entryModel" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -17,8 +22,8 @@
             id="Name" 
             placeholder="name" 
             @bind-Value="@_entryModel.Name"/>
-        <ValidationMessage For="@(() => _entryModel.Name)" />
-        <label for="Name">Your Name:</label>
+        <ValidationMessage For="@( () => _entryModel.Name)"/>
+        <label for="Name">@_name</label>
     </div>
     
     <!-- Input Field for Description -->
@@ -29,12 +34,12 @@
             placeholder="Type here" 
             style="height: 200px" 
             @bind-Value="@_entryModel.Description"/>
-            <ValidationMessage For="@(() => _entryModel.Description)" />
-        <label for="Description">The prayer you wish to petition:</label>
+            <ValidationMessage For="@( () => _entryModel.Description)"/>
+        <label for="Description">@_description</label>
     </div>
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">@_submit</button>
     </div>
     
     <!-- Modal -->
@@ -140,4 +145,21 @@
 
     private string _modalTitle = "";
     private string _modalMessage = "";
+    
+    
+    
+    // Localization stuff
+    private string? _name;
+    private string? _description;
+    private string? _submit;
+    private string? _title;
+
+    protected override void OnInitialized()
+    {
+        _name = Loc["name"];
+        _description = Loc["description"];
+        _submit = Loc["submit"];
+        _title = Loc["title"];
+    }
+    
 }

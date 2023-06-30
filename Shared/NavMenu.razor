@@ -1,6 +1,7 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Petition App</a>
+        <!--<a class="navbar-brand" href="">Petition App</a>-->
+         <ChooseLanguage/>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,6 +10,8 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
+        
+        
         <!-- 
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -28,7 +31,8 @@
         -->
     
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Form">
+           
+            <NavLink class="nav-link" href="">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Petition
             </NavLink>
         </div>

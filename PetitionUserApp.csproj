@@ -12,10 +12,65 @@
       <PackageReference Include="Majorsoft.Blazor.Components.CssEvents" Version="1.5.0" />
       <PackageReference Include="Majorsoft.Blazor.Components.Modal" Version="1.5.0" />
       <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
+      <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.8" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Components\" />
+      <Folder Include="wwwroot\Culture\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\Form.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Form.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Form.es.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>App.es.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Form.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>App.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Localization\SharedResource.es.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>SharedResource.es.Designer.cs</LastGenOutput>
+        <DependentUpon>SharedResource.cs</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Localization\SharedResource.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>SharedResource.en.Designer.cs</LastGenOutput>
+        <DependentUpon>SharedResource.cs</DependentUpon>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\Form.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Form.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Form.es.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Form.es.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Form.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Form.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Localization\SharedResource.es.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SharedResource.es.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Localization\SharedResource.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SharedResource.en.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>
